@@ -6,10 +6,10 @@ class Question(models.Model):
 	pub_date = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):
-		mod = ('------------------------------'
-				str(self.question_text)
-				'data de criação: '+str(self.pub_date)
-				'status: '+str(self.closed)
+		mod = ('------------------------------\n'+
+				str(self.question_text)+'\n'+
+				'data de criação: '+str(self.pub_date)+'\n'+
+				'status: '+str(self.closed)+'\n'
 			)
 		return mod
 
@@ -20,8 +20,8 @@ class Choice(models.Model):
 
 	def __str__(self):
 		mod = (
-			self.question
-			'resposta: '+str(self.choice_text)
-			'likes: '+str(self.votes)
+			self.question+'\n'+
+			'resposta: '+str(self.choice_text)+'\n'+
+			'likes: '+str(self.votes)+'\n'
 		)
 		return mod
