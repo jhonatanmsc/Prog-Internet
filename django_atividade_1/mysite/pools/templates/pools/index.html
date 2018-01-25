@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+        <ul>
+            {% for questao in questoes %}
+                <li>
+                    <a href="{% url 'exibir_questao' questao.pk %}">
+                        <p>{{ questao.question_text }}</p>
+                        <p>{{ questao.pub_date }}</p>
+                    </a>
+                </li>
+                {% empty %}
+                    Não há questões cadastradas.
+            {% endfor %}
+        </ul>
+    </body>
+</html>
