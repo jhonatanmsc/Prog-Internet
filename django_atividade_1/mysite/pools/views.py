@@ -13,8 +13,8 @@ def home(request):
     return render(request, 'pools/index.html', objetos)
 
 def exibir_questao(request, pk):
-    questao = Question.objects.get(pk=pk)
+    questao = get_object_or_404(Question, pk=pk)
     objetos = {
         'questao': questao
     }
-    render(request, 'pools/question.html', objetos)
+    return render(request, 'pools/question.html', objetos)

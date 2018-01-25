@@ -8,7 +8,7 @@
         <ul>
             {% for questao in questoes %}
                 <li>
-                    <a href="{% url 'exibir_questao' questao.pk %}">
+                    <a href="{% url 'exibir_questao' questao.id %}">
                         <p>{{ questao.question_text }}</p>
                         <p>{{ questao.pub_date }}</p>
                     </a>

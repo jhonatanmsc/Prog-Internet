@@ -5,5 +5,5 @@ from .views import *
 
 urlpatterns = [
     path('', home, name='home'),
-    url(r'^questao/(?P<pk>[0-9]+)/$', exibir_questao, name='exibir_questao'),
+    path('^questao/<int:pk>', exibir_questao, name='exibir_questao'),
 ]
