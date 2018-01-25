@@ -1,21 +1,21 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <title>Title</title>
-    </head>
-    <body>
-        <ul>
+{% extends 'pools/base.html' %}
+{% block content %}
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Panel heading</div>
             {% for questao in questoes %}
-                <li>
+                <div class="panel-body">
                     <a href="{% url 'exibir_questao' questao.id %}">
                         <p>{{ questao.question_text }}</p>
-                        <p>{{ questao.pub_date }}</p>
                     </a>
-                </li>
-                {% empty %}
-                    Não há questões cadastradas.
+                </div>
+            <!-- Table -->
+            <table class="table">
+            </table>
+            {% empty %}
+                Não há questões cadastradas.
             {% endfor %}
-        </ul>
-    </body>
-</html>
+    </div>
+
+{% endblock %}
