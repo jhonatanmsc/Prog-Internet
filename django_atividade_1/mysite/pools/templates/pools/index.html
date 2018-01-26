@@ -1,21 +1,29 @@
 {% extends 'pools/base.html' %}
 {% block content %}
 
+    <div class="row">
 
-    <div class="panel panel-default">
-        <div class="panel-heading">Panel heading</div>
-            {% for questao in questoes %}
-                <div class="panel-body">
-                    <a href="{% url 'exibir_questao' questao.id %}">
-                        <p>{{ questao.question_text }}</p>
-                    </a>
+    <div class="collapsible-header center blue darken-2 white-text">
+        <div class="col s3">Nº Questão</div>
+        <div class="col s3">Enunciado</div>
+        <div class="col s3">Situação</div>
+        <div class="col s3">Data de publicação</div>
+    </div>
+
+        {% for questao in questoes %}
+            <a href="{% url 'exibir_questao' questao.id %}">
+                <div class="collapsible-header center black-text">
+                    <div class="col s3">{{ questao.pk }}</div>
+                    <div class="col s3">{{ questao.question_text }}</div>
+                    <div class="col s3">{{ questao.closed }}</div>
+                    <div class="col s3">{{ questao.pub_date.date }}</div>
                 </div>
-            <!-- Table -->
-            <table class="table">
-            </table>
-            {% empty %}
-                Não há questões cadastradas.
-            {% endfor %}
+            </a>
+        {% empty %}
+            Não há questões cadastradas.
+        {% endfor %}
+        </tbody>
+      </table>
     </div>
 
 {% endblock %}
