@@ -19,7 +19,7 @@ class Question(models.Model):
 
 
 class Choice(models.Model):
-    question = models.ForeignKey('Question', null=True, related_name='alternativas_associadas', on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, related_name='alternativas_associadas', on_delete=models.CASCADE)
     choice_text = models.TextField()
     votes = models.IntegerField(default=0)
 
