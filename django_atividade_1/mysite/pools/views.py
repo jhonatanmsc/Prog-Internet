@@ -15,6 +15,7 @@ def home(request):
 def exibir_questao(request, pk):
     questao = get_object_or_404(Question, pk=pk)
     objetos = {
-        'questao': questao
+        'questao': questao,
+        'alternativas': questao.alternativas_associadas.all()
     }
     return render(request, 'pools/question.html', objetos)

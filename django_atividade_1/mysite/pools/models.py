@@ -24,9 +24,4 @@ class Choice(models.Model):
     votes = models.IntegerField(default=0)
 
     def __str__(self):
-        mod = (
-            self.question + '\n' +
-            'resposta: ' + str(self.choice_text) + '\n' +
-            'likes: ' + str(self.votes) + '\n'
-        )
-        return mod
+        return self.choice_text
