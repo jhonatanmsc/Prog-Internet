@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 {% load staticfiles %}
-
+{% load static %}
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <title>Base</title>
-     <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.2/css/materialize.min.css">
+    <link rel="stylesheet"
+          href="{% static  'materialize/css/materialize.css' %}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+    <script type="text/javascript" src="{% static 'materialize/js/materialize.js' %}"></script>
 </head>
 <body>
     <div class="row container center">
         {% block content %}
         {% endblock %}
     </div>
-
+            
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.2/js/materialize.min.js"></script>
 </body>
