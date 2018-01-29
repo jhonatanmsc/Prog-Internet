@@ -1,5 +1,5 @@
 # Repositorio da disciplina programação para internet
-Repositorio da disciplina de programação para internet
+
 ### Jhonatan Matheus Sousa Costa
 
 ###### me contate via email jhonatanmatheus80@gmail.com
