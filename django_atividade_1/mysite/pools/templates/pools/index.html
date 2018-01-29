@@ -1,17 +1,17 @@
-{% extends 'pools/base.html' %}
+{%  extends 'pools/base.html' %}
 {% block content %}
 
     <div class="row">
 
-    <div class="collapsible-header center blue darken-2 white-text">
-        <div class="col s3">Nº Questão</div>
-        <div class="col s3">Enunciado</div>
-        <div class="col s3">Situação</div>
-        <div class="col s3">Data de publicação</div>
-    </div>
+        <div class="collapsible-header center blue darken-2 white-text">
+            <div class="col s3">Nº Questão</div>
+            <div class="col s3">Enunciado</div>
+            <div class="col s3">Situação</div>
+            <div class="col s3">Data de publicação</div>
+        </div>
 
-        {% for questao in questoes %}
-            <a href="{% url 'exibir_questao' questao.id %}">
+        {% for questao in ultimas_questoes %}
+            <a href="{% url 'pools:exibir_questao' questao.pk %}">
                 <div class="collapsible-header center black-text">
                     <div class="col s3">{{ questao.pk }}</div>
                     <div class="col s3">{{ questao.question_text }}</div>
@@ -22,8 +22,6 @@
         {% empty %}
             Não há questões cadastradas.
         {% endfor %}
-        </tbody>
-      </table>
     </div>
 
 {% endblock %}

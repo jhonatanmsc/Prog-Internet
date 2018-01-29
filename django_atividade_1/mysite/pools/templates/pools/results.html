@@ -1,0 +1,21 @@
+{% extends 'pools/base.html' %}
+{% block content %}
+    <div class="row">
+        <h4>Pergunta: {{ questao.question_text }}</h4>
+        <div class="collapsible-header center blue darken-2 white-text">
+            <div class="col s6">Alternativas</div>
+            <div class="col s6">Qtd Votos</div>
+        </div>
+        <ul>
+        {% for alternativa in questao.alternativas_associadas.all %}
+            <div class="collapsible-header center black-text">
+                <div class="col s6">{{ alternativa.choice_text }}</div>
+                <div class="col s6">{{ alternativa.votes }} voto{{ alternativa.votes|pluralize }}</div>
+            </div>
+        {% endfor %}
+    </ul>
+    </div>
+
+    <a href="{% url 'pools:exibir_questao' questao.pk %}">Votar de novo?</a>
+
+{% endblock %}

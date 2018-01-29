@@ -1,6 +1,7 @@
 {% extends 'pools/base.html' %}
 {% block content %}
 
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
     <ul class="left-align">
         <li>
             Número: {{ questao.id }}
@@ -16,15 +17,16 @@
         </li>
         <li>
             <h5>Alternativas: </h5>
-                <ul>
-                    {% for i in alternativas %}
-                        <li>
-                            {{ i }}
-                        </li>
-                        {% empty %}
-                            <h3>Sem alternativas até então.</h3>
-                    {% endfor %}
-                </ul>
+            <form action="{% url 'pools:vote' questao.pk %}" method="POST">
+                {% csrf_token %}
+                {% for alternativa in questao.alternativas_associadas.all %}
+                    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ alternativa.pk }}" />
+                    <label for="choice{{ forloop.counter }}" class="black-text">{{ alternativa.choice_text }}</label><br />
+                    {% empty %}
+                        <h5>Sem alternativas até então.</h5>
+                {% endfor %}
+                <input type="submit" value="Vote" class="btn left-align">
+            </form>
         </li>
     </ul>
 {% endblock %}
