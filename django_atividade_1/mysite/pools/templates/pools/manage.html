@@ -1,0 +1,36 @@
+{% extends 'pools/base.html' %}
+{% block content %}
+
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    <ul class="left-align">
+        <li>
+            Número: {{ questao.id }}
+        </li>
+        <li>
+            Enunciado: {{ questao.question_text }}
+        </li>
+        <li>
+            Situação: {{ questao.closed }}
+        </li>
+        <li>
+            Data de publicação: {{ questao.pub_date.date }}
+        </li>
+        <li>
+            <a href="{% url 'pools:deletar_questao' questao.pk %}">Deletar Questão</a>
+        </li>
+        <li>
+            <h5>Alternativas: </h5>
+            <form action="{% url 'pools:vote' questao.pk %}" method="POST">
+                {% csrf_token %}
+                {% for alternativa in questao.alternativas_associadas.all %}
+                    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ alternativa.pk }}" />
+                    <label for="choice{{ forloop.counter }}" class="black-text">{{ alternativa.choice_text }}
+                        - <a href="{% url 'pools:deletar_alternativa' questao.pk %}">Deletar alternativa</a></label><br />
+                    {% empty %}
+                        <h5>Sem alternativas até então.</h5>
+                {% endfor %}
+             <input type="submit" value="Vote" class="btn left-align">
+            </form>
+        </li>
+    </ul>
+{% endblock %}

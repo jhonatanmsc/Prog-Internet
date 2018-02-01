@@ -27,6 +27,11 @@ class ResultsView(generic.DetailView):
     template_name = 'pools/results.html'
     context_object_name = 'questao'
 
+class ManageView(generic.DetailView):
+    model = Question
+    template_name = 'pools/manage.html'
+    context_object_name = 'questao'
+
 
 def vote(request, pk):
     questao = get_object_or_404(Question, pk=pk)
@@ -44,3 +49,24 @@ def vote(request, pk):
         alternativa.save()
 
     return HttpResponseRedirect(reverse('pools:results', args=(questao.id,)))
+
+def deletar_questao(request, pk):
+    Question.objects.filter(pk=pk).delete()
+    return render(request, 'pools/index.html')
+
+def deletar_alternativa(request, pk):
+    questao = get_object_or_404(Question, pk)
+    try:
+        alternativa = questao.alternativas_associadas.get(pk=request.POST['choice'])
+        Choice.objects.filter(pk=alternativa.pk).delete()
+
+    except (KeyError, Choice.DoesNotExist):
+        context = {
+            'questao': questao,
+            'error_message': 'Você não selecionou uma opção.',
+        }
+        return render(request, 'pools/question.html', context)
+
+    return HttpResponseRedirect(reverse('pools:index'))
+
+

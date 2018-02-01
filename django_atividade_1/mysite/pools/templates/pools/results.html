@@ -18,4 +18,5 @@
     {% if questao.closed == False %}
         <a href="{% url 'pools:exibir_questao' questao.pk %}">Votar de novo?</a>
     {% endif %}
+    <a href="{% url 'pools:manage' questao.pk %}" class="btn btn-large">Gerenciar questão</a>
 {% endblock %}
