@@ -1,41 +1,32 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
+from django.utils import timezone
 from django.views import generic
 
 from .models import Question, Choice
 
 
-class IndexView(generic.ListView):
+class HomeView(generic.ListView):
     template_name = 'pools/index.html'
     context_object_name = 'ultimas_questoes'
 
     def get_queryset(self):
-        return Question.objects.order_by('-pub_date')[:5]
+        return Question.objects.filter(pub_date__lte=timezone.now()).order_by('pub_date')[:5] #menor ou igual
 
-# class DetailView(generic.DetailView):
-#     model = Question
-#     template_name = 'pools/question.html'
-#
-# class ResultsView(generic.DetailView):
-#     model = Question
-#     template_name = 'pools/results.html'
+class ShowQuestionView(generic.DetailView):
+    model = Question
+    template_name = 'pools/question.html'
+    context_object_name = 'questao'
 
+    def get_queryset(self):
+        return Question.objects.filter(pub_date__lte=timezone.now())
 
-def home(request):
-    ultimas_cinco_questoes_registradas = Question.objects.order_by('-pub_date')[:5]
-    context = {
-        'ultimas_cinco_questoes_registradas': ultimas_cinco_questoes_registradas
-    }
-    return render(request, 'pools/index.html', context)
+class ResultsView(generic.DetailView):
+    model = Question
+    template_name = 'pools/results.html'
+    context_object_name = 'questao'
 
-def exibir_questao(request, pk):
-    questao = get_object_or_404(Question, pk=pk)
-    return render(request, 'pools/question.html', {'questao':questao})
-
-def results(request, pk):
-    questao = get_object_or_404(Question, pk=pk)
-    return render(request, 'pools/results.html', {'questao':questao})
 
 def vote(request, pk):
     questao = get_object_or_404(Question, pk=pk)
@@ -51,9 +42,5 @@ def vote(request, pk):
     else:
         alternativa.votes += 1
         alternativa.save()
-    # if(request.method == 'POST'):
-    #     pk_ch = request.POST['choice']
-    #     ch = Choice.objects.get(pk=pk_ch)
-    #     ch.votes += 1
-    #     ch.save()
+
     return HttpResponseRedirect(reverse('pools:results', args=(questao.id,)))

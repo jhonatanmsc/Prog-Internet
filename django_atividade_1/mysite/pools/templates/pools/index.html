@@ -4,21 +4,29 @@
     <div class="row">
 
         <div class="collapsible-header center blue darken-2 white-text">
-            <div class="col s3">Nº Questão</div>
+            <div class="col s1">Nº Questão</div>
             <div class="col s3">Enunciado</div>
-            <div class="col s3">Situação</div>
+            <div class="col s2">Situação</div>
             <div class="col s3">Data de publicação</div>
+            <div class="col s3">Resultados</div>
         </div>
 
         {% for questao in ultimas_questoes %}
-            <a href="{% url 'pools:exibir_questao' questao.pk %}">
+
                 <div class="collapsible-header center black-text">
-                    <div class="col s3">{{ questao.pk }}</div>
-                    <div class="col s3">{{ questao.question_text }}</div>
-                    <div class="col s3">{{ questao.closed }}</div>
+                    <div class="col s1">{{ questao.pk }}</div>
+                    <div class="col s3">
+                        {{ questao.question_text }}
+                    </div>
+                    <div class="col s2">{%  if questao.closed %} Fechada
+                    {% else %} Votação aberta {% endif %}</div>
                     <div class="col s3">{{ questao.pub_date.date }}</div>
+                    <div class="col s3">{%  if questao.closed %}
+                        <a href="{% url 'pools:results' questao.pk%}">Conferir</a>
+                        {% else %} <a href="{% url 'pools:exibir_questao' questao.pk %}">
+                        Votação aberta</a>{% endif %}</div>
                 </div>
-            </a>
+
         {% empty %}
             Não há questões cadastradas.
         {% endfor %}

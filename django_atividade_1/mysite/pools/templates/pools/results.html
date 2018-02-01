@@ -15,7 +15,7 @@
         {% endfor %}
     </ul>
     </div>
-
-    <a href="{% url 'pools:exibir_questao' questao.pk %}">Votar de novo?</a>
-
+    {% if questao.closed == False %}
+        <a href="{% url 'pools:exibir_questao' questao.pk %}">Votar de novo?</a>
+    {% endif %}
 {% endblock %}
