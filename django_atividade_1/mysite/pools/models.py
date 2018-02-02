@@ -20,6 +20,15 @@ class Question(models.Model):
         now = timezone.now()
         return now - datetime.timedelta(days=1) <= self.pub_date <= now
 
+    def get_qtd_choice(self):
+        return len(self.alternativas_associadas.all())
+
+    def get_qtd_votes(self):
+        total_votes = 0
+        for choice in self.alternativas_associadas.all():
+            total_votes += choice.votes
+        return total_votes
+
     class Meta:
         ordering = ['-pub_date']
 
@@ -31,3 +40,8 @@ class Choice(models.Model):
 
     def __str__(self):
         return self.choice_text
+
+    def get_percen(self):
+        if self.votes == 0:
+            return 0
+        return int(self.question.get_qtd_votes() / self.votes) * 100

@@ -10,7 +10,7 @@
         {% for alternativa in questao.alternativas_associadas.all %}
             <div class="collapsible-header center black-text">
                 <div class="col s6">{{ alternativa.choice_text }}</div>
-                <div class="col s6">{{ alternativa.votes }} voto{{ alternativa.votes|pluralize }}</div>
+                <div class="col s6">{{ alternativa.votes }} voto{{ alternativa.votes|pluralize }} | per {{alternativa.get_percen}} %</div>
             </div>
         {% endfor %}
     </ul>
