@@ -29,6 +29,11 @@ class Question(models.Model):
             total_votes += choice.votes
         return total_votes
 
+
+    was_published_recently.admin_order_field = 'pub_date'
+    was_published_recently.boolean = True
+    was_published_recently.short_description = 'Publicado recentemente?'
+
     class Meta:
         ordering = ['-pub_date']
 
@@ -44,4 +49,7 @@ class Choice(models.Model):
     def get_percen(self):
         if self.votes == 0:
             return 0
-        return int(self.question.get_qtd_votes() / self.votes) * 100
+        total = 0
+        for i in self.question.alternativas_associadas.all():
+            total += i.votes
+        return str("%.2f" % ((self.votes/total) * 100))
