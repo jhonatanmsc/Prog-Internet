@@ -1,16 +1,19 @@
 from django.db import models
 
 # Create your models here.
-class Profile(models.Model):
+class User(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
-    address_id = models.ForeignKey('Address', related_name='profile_in_address',on_delete=models.CASCADE)
-    profiles = models.ManyToManyField('auth.Profile')
-    profile = models.ForeignKey('auth.Profile', related_name='profile', on_delete=models.CASCADE)
+    address = models.ForeignKey('Address', related_name='profile_in_address',on_delete=models.CASCADE)
+    profiles = models.ManyToManyField('auth.User')
+    profile = models.ForeignKey('auth.User', blank=True, null=True, related_name='profile', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
 
+    @classmethod
+    def save_from_json(cls, id, name, email, address, *args, **kwargs):
+        return cls.objects.create(pk=id, name=name, email=email, address=Address.save_from_json(**address))
 
 class Address(models.Model):
     street = models.CharField(max_length=100)
@@ -21,22 +24,32 @@ class Address(models.Model):
     def __str__(self):
         return self.street
 
+    @classmethod
+    def save_from_json(cls, street, suite, city, zipcode, *args, **kwargs):
+        return cls.objects.create(street=street, suite=suite, city=city, zipcode=zipcode)
 
 class Comment(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
     body = models.CharField(max_length=300)
-    post_id = models.ForeignKey('Post', related_name='comments_in_post', verbose_name='Todos os comentários',
+    post = models.ForeignKey('Post', related_name='comments_in_post', verbose_name='Todos os comentários',
                                on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
 
+    @classmethod
+    def save_from_json(cls, postId, id, name, email, body, *args, **kwargs):
+        return cls.objects.create(pk=id, name=name, email=email, body=body, post=Post.objects.get(pk=postId))
+
 class Post(models.Model):
     title = models.CharField(max_length=100)
     body = models.CharField(max_length=300)
-    userId = models.ForeignKey('Profile', related_name='user_posts',on_delete=models.CASCADE)
-    owner = models.ForeignKey('auth.Profile', related_name='posts', on_delete=models.CASCADE)
+    user = models.ForeignKey('User', related_name='user_posts',on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
+
+    @classmethod
+    def save_from_json(cls, userId, id, title, body, *args, **kwargs):
+        return cls.objects.create(pk=id, title=title, body=body, user=User.objects.get(pk=userId))
