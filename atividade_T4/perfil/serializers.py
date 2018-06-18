@@ -6,6 +6,11 @@ from .models import *
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
 
+    class Meta:
+        model = User
+        fields = ('pk', 'url', 'username', 'user_posts')
+
+class UserCountSerializer(serializers.ModelSerializer):
     posts_count = serializers.SerializerMethodField()
     comments_count = serializers.SerializerMethodField()
 
@@ -13,18 +18,11 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         return obj.user_posts.count()
 
     def get_comments_count(self, obj):
-        return Comment.objects.filter(post__user=obj).count()
+        return Comment.objects.filter(post__owner=obj).count()
 
     class Meta:
         model = User
-        fields = ('pk', 'url', 'name', 'posts_count', 'comments_count', 'user_posts')
-
-    def create(self, validated_data):
-        posts_data = validated_data.pop('user_posts')
-        post = Post.objects.create(**validated_data)
-        for post_data in posts_data:
-            Post.objects.create(post=post, **post_data)
-        return post
+        fields = ('id', 'username', 'posts_count', 'comments_count')
 
 
 class CommentSerializer(serializers.HyperlinkedModelSerializer):
@@ -35,7 +33,7 @@ class CommentSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PostSerializer(serializers.HyperlinkedModelSerializer):
-    user = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='name')
+    owner = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='username')
     comments_count = serializers.SerializerMethodField()
 
     def get_comments_count(self, obj):
@@ -43,4 +41,4 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('user', 'url', 'title', 'body', 'comments_count')
+        fields = ('owner', 'url', 'title', 'body', 'comments_count')

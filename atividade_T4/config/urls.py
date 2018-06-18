@@ -14,26 +14,30 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path, include
-
-from perfil import views
+from rest_framework_nested import routers
+from perfil.views import *
+from django.contrib import admin
 
 app_name='perfil'
 urlpatterns = [
-    path('', views.ApiRoot.as_view(), name='api-root'),
+    path('', ApiRoot.as_view(), name='api-root'),
+    path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
-    path('reset-data', views.reset_data, name='reset-data'),
-
-    path('users/', views.UserList.as_view(), name=views.UserList.name),
-    path('users/<int:pk>', views.UserDetail.as_view(), name=views.UserDetail.name),
-    path('users/<int:pk>/posts/', views.UserDetail.as_view(), name='user-posts'),
-    path('users/<int:pk>/posts/<int:post_id>', views.UserPostDetail.as_view(), name='user-post-detail'),
-    path('users/<int:pk>/posts/<int:post_id>/comments/', views.UserPostComments.as_view(), name='user-post-comment'),
-    path('users/<int:pk>/posts/<int:post_id>/comments/<int:comment_id>', views.UserPostCommentDetail.as_view(), name='user-post-comment-detail'),
-
-    path('posts/', views.PostList.as_view(), name=views.PostList.name),
-    path('posts/<int:pk>', views.PostDetail.as_view(), name=views.PostDetail.name),
-    
-    path('comments/', views.CommentList.as_view(), name=views.CommentList.name),
-    path('comments/<int:pk>', views.CommentDetail.as_view(), name=views.CommentDetail.name),
-
+    path('reset-data', reset_data, name='reset-data'),
 ]
+
+router = routers.DefaultRouter()
+router.register(r'users-root', UserRootView)
+router.register(r'users', UserView)
+router.register(r'posts', PostView)
+router.register(r'comments', CommentView)
+
+user_router = routers.NestedSimpleRouter(router, r'users', lookup='user')
+user_router.register(r'posts', PostView, base_name='users_posts')
+
+posts_router = routers.NestedSimpleRouter(user_router, r'posts', lookup='post')
+posts_router.register(r'comments', CommentView, base_name='comments_posts')
+
+urlpatterns += router.urls
+urlpatterns += user_router.urls
+urlpatterns += posts_router.urls
