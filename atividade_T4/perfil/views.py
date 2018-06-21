@@ -1,9 +1,10 @@
 from rest_framework import viewsets, generics, permissions
 from rest_framework.response import Response
 from rest_framework_extensions.mixins import NestedViewSetMixin
-from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.views import ObtainAuthToken, Token
 from rest_framework.throttling import ScopedRateThrottle
+from rest_framework import authentication
+from rest_framework import exceptions
 from django.http import JsonResponse
 from django.db import transaction
 from perfil.permissions import *
@@ -75,7 +76,7 @@ class ApiRoot(generics.GenericAPIView, NestedViewSetMixin):
             'reset-data': reverse('reset-data',request=request)
         })
 
-class CustomAuthToken(ObtainAuthToken):
+class TokenAcess(ObtainAuthToken):
 
     throttle_scope = 'api-token'
     throttle_classes = (ScopedRateThrottle, )
@@ -85,11 +86,26 @@ class CustomAuthToken(ObtainAuthToken):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
+        
         return Response({
             'user_id': user.id,
             'user_name': user.username,
             'token': token.key,
-})
+        })
+
+
+class TokenAuthentication(authentication.BaseAuthentication):
+    def authenticate(self, request):
+        username = request.META.get('user_name')
+        if not username:
+            return None
+
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            raise exceptions.AuthenticationFailed('No such user')
+
+        return (user, None)
 
 
 @transaction.atomic
@@ -118,4 +134,4 @@ def reset_data(request):
 
         return JsonResponse({'error': 'Ok sem Erros...'})
     except Exception as e:
-        return JsonResponse({'error': str(e)})
+        return JsonResponse({'error': e})

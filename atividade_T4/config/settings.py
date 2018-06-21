@@ -31,14 +31,17 @@ AUTH_USER_MODEL = 'perfil.User'
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_framework.authentication',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     'perfil',
-    'rest_framework'
 ]
 
 REST_FRAMEWORK = {

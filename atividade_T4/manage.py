@@ -13,3 +13,5 @@ if __name__ == "__main__":
             "forget to activate a virtual environment?"
         ) from exc
     execute_from_command_line(sys.argv)
+
+#https://www.extra.com.br/Informatica/Notebook/notebook-samsung-core-i5-7200u-8gb-1tb-tela-15-6-windows-10-expert-x22-np300e5m-kd3br-11463383.html?recsource=busca-int&rectype=busca-57

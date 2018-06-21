@@ -17,6 +17,7 @@ from django.urls import path, include
 from rest_framework_nested import routers
 from perfil.views import *
 from django.contrib import admin
+from rest_framework.authtoken.views import obtain_auth_token
 
 app_name='perfil'
 urlpatterns = [
@@ -24,6 +25,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('reset-data', reset_data, name='reset-data'),
+    path('api-obtain-token/', obtain_auth_token),
+    path('api-obtain-token2/', TokenAcess.as_view(), name='api-token'),
 ]
 
 router = routers.DefaultRouter()
