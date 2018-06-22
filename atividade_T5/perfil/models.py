@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import (AbstractUser,
                                         UserManager)
+from django.conf import settings
 
 # Create your models here.
 class User(AbstractUser):
@@ -45,7 +46,7 @@ class Comment(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=100)
     body = models.CharField(max_length=300)
-    owner = models.ForeignKey('auth.User', blank=True, null=True, related_name='user_posts',on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, related_name='user_posts',on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title

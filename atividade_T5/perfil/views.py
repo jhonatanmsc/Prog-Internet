@@ -1,14 +1,14 @@
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication, BasicAuthentication, BaseAuthentication
+from rest_framework.authtoken.views import ObtainAuthToken, Token
+from rest_framework_extensions.mixins import NestedViewSetMixin
 from rest_framework import viewsets, generics, permissions
 from rest_framework.response import Response
-from rest_framework_extensions.mixins import NestedViewSetMixin
-from rest_framework.authtoken.views import ObtainAuthToken, Token
 from rest_framework.throttling import ScopedRateThrottle
-from rest_framework import authentication
 from rest_framework import exceptions
 from django.http import JsonResponse
 from django.db import transaction
-from perfil.permissions import *
 from config import settings
+from perfil.permissions import *
 from .serializers import *
 from .models import *
 import json, os
@@ -20,6 +20,13 @@ class UserRootView(viewsets.ModelViewSet, NestedViewSetMixin):
     queryset = User.objects.all()
     serializer_class = UserCountSerializer
     http_method_names = ['get']
+
+    authentication_classes = (
+        TokenAuthentication, 
+        SessionAuthentication, 
+        BasicAuthentication
+        )
+
     name = 'user-root-list'
 
 
@@ -28,6 +35,13 @@ class UserView(viewsets.ModelViewSet, NestedViewSetMixin):
     serializer_class = UserSerializer
     name = 'user-list'
     http_method_names = ['get']
+
+    authentication_classes = (
+        TokenAuthentication, 
+        SessionAuthentication, 
+        BasicAuthentication
+        )
+
     permission_classes = (UserReadOnly, permissions.IsAuthenticated)
 
     def get_queryset(self):
@@ -41,6 +55,13 @@ class PostView(viewsets.ModelViewSet, NestedViewSetMixin):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     name = 'post-list'
+
+    authentication_classes = (
+        TokenAuthentication, 
+        SessionAuthentication, 
+        BasicAuthentication
+        )
+
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerPostOrReadOnly)
 
     def perform_create(self, serializer):
@@ -57,6 +78,13 @@ class CommentView(viewsets.ModelViewSet, NestedViewSetMixin):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     name = 'comment-list'
+
+    authentication_classes = (
+        TokenAuthentication, 
+        SessionAuthentication, 
+        BasicAuthentication
+        )
+
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerCommentOrReadOnly)
 
     def get_queryset(self):
@@ -77,7 +105,6 @@ class ApiRoot(generics.GenericAPIView, NestedViewSetMixin):
         })
 
 class TokenAcess(ObtainAuthToken):
-
     throttle_scope = 'api-token'
     throttle_classes = (ScopedRateThrottle, )
 
@@ -94,12 +121,11 @@ class TokenAcess(ObtainAuthToken):
         })
 
 
-class TokenAuthentication(authentication.BaseAuthentication):
+class TokenAuthentication(BaseAuthentication):
     def authenticate(self, request):
         username = request.META.get('user_name')
         if not username:
             return None
-
         try:
             user = User.objects.get(username=username)
         except User.DoesNotExist:
