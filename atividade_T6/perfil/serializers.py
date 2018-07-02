@@ -21,12 +21,18 @@ class CharacterSerializer(serializers.ModelSerializer):
 class ItemSerializer(serializers.HyperlinkedModelSerializer):
     
     class Meta:
-        model = Comment
-        fields = ('url', 'name', 'itemClass', 'effect', 'patter', 'location', 'cost')
+        model = Item
+        fields = ('url', 'name', 'itemClass', 'effect', 'pattern', 'location', 'cost')
 
 
 class MusicSerializer(serializers.HyperlinkedModelSerializer):
     
     class Meta:
-        model = Address
-        fields = ('url', 'name')
+        model = Music
+        fields = ('name')
+
+
+class AreaSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Area
+        fields = ('name')

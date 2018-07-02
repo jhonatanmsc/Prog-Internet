@@ -27,7 +27,7 @@ class Item(models.Model):
     name = models.CharField(max_length=100)
     itemClass = models.ForeignKey('ItemClass', related_name='itens', on_delete=models.CASCADE)
     effect = models.CharField(max_length=300)
-    patter = models.CharField(max_length=100)
+    pattern = models.CharField(max_length=100)
     location = models.ForeignKey('Area', related_name='itens', on_delete=models.CASCADE)
     cost = models.IntegerField()
 

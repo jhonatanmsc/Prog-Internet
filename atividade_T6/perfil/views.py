@@ -39,8 +39,8 @@ class CharacterView(viewsets.ModelViewSet, NestedViewSetMixin):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly)
 
 
-class ItenView(viewsets.ModelViewSet, NestedViewSetMixin):
-    queryset = item.objects.all()
+class ItemView(viewsets.ModelViewSet, NestedViewSetMixin):
+    queryset = Item.objects.all()
     serializer_class = ItemSerializer
     name = 'item-list'
 
@@ -104,7 +104,7 @@ class ApiRoot(generics.GenericAPIView, NestedViewSetMixin):
         return Response({
             'users': reverse(UserView.name, request=request),
             'characters': reverse(CharacterView, request=request),
-            'itens': reverse(ItenView, request=request),
+            'itens': reverse(ItemView, request=request),
             'musics': reverse(MusicView, request=request),
         })
 
