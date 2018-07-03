@@ -108,26 +108,220 @@
     "name": "Pathetic House"
   },
   {
-    "name": ""
+    "name": "Spooktune"
   },
   {
-    "name": ""
+    "name": "Spookwave"
   },
   {
-    "name": ""
+    "name": "Ghouliday"
   },
   {
-    "name": ""
+    "name": "Chill"
   },
   {
-    "name": ""
+    "name": "Thundersnail"
   },
   {
-    "name": ""
+    "name": "Temmie Village"
   },
-
+  {
+    "name": "Tem Shop"
+  },
+  {
+    "name": "NGAHHH!!"
+  },
+  {
+    "name": "Spear of Justice"
+  },
+  {
+    "name": "Ooo"
+  },
+  {
+    "name": "Alphys"
+  },
+  {
+    "name": "It's Showtime!"
+  },
+  {
+    "name": "Metal Crusher"
+  },
+  {
+    "name": "Another Medium"
+  },
+  {
+    "name": "Uwa! So HEATS!!"
+  },
+  {
+    "name": "Stronger Monsters"
+  },
+  {
+    "name": "Hotel"
+  },
+  {
+    "name": "Can You Really Call This A Hotel, I Didn't Receive A Mint On My Pillow Or Anything"
+  },
+  {
+    "name": "Confession"
+  },
+  {
+    "name": "Live Report"
+  },
+  {
+    "name": "Death Report"
+  },
+  {
+    "name": "Spider Dance"
+  },
+  {
+    "name": "Wrong Enemy!?"
+  },
+  {
+    "name": "Oh! One True Love"
+  },
+  {
+    "name": "Oh! Dungeon"
+  },
+  {
+    "name": "It's Raining Somewhere Else"
+  },
+  {
+    "name": "CORE Approach"
+  },
+  {
+    "name": "CORE"
+  },
+  {
+    "name": "Last Episode!"
+  },
+  {
+    "name": "Oh My..."
+  },
+  {
+    "name": "Death by Glamour"
+  },
+  {
+    "name": "For The Fans"
+  },
+  {
+    "name": "Long Elevator"
+  },
+  {
+    "name": "Undertale"
+  },
+  {
+    "name": "Song That Might Play When You Fight Sans"
+  },
+  {
+    "name": "The Choice"
+  },
+  {
+    "name": "Small Shock"
+  },
+  {
+    "name": "Barrier"
+  },
+  {
+    "name": "Bergentruckung"
+  },
+  {
+    "name": "ASGORE"
+  },
+  {
+    "name": "You Idiot"
+  },
+  {
+    "name": "Your Best Nightmare"
+  },
+  {
+    "name": "Finale"
+  },
+  {
+    "name": "An Ending"
+  },
+  {
+    "name": "She's Playing Piano"
+  },
+  {
+    "name": "Here We Are"
+  },
+  {
+    "name": "Amalgam"
+  },
+  {
+    "name": "Fallen Down(Reprise)"
+  },
+  {
+    "name": "Don't Give Up"
+  },
+  {
+    "name": "Hopes And Dreams"
+  },
+  {
+    "name": "Burn in Despair!"
+  },
+  {
+    "name": "SAVE the World"
+  },
+  {
+    "name": "His Theme"
+  },
+  {
+    "name": "Final Power"
+  },
+  {
+    "name": "Reunited"
+  },
+  {
+    "name": "Menu(Full)"
+  },
+  {
+    "name": "Respite"
+  },
+  {
+    "name": "Bring It In, Guys!"
+  },
+  {
+    "name": "Last Goodbye"
+  },
+  {
+    "name": "But The Earth Refused To Die"
+  },
+  {
+    "name": "Battle Against a True Hero"
+  },
+  {
+    "name": "Power of NEO"
+  },
+  {
+    "name": "MEGALOVANIA"
+  },
+  {
+    "name": "Good Night"
+  },
   ]
   ,
+  "ItemClass": [
+    {
+      "name": "Consumable"
+    },
+    {
+      "name": "Weapon"
+    },
+    {
+      "name": "Armor"
+    },
+    {
+      "name": "Miscellaneous"
+    },
+
+  ],
+  "CharacterType": [
+    {
+      "name": "Human",
+      "description": "Regular human"
+    }
+  ],
   "Character": [
     {
 

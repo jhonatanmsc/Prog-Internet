@@ -9,7 +9,6 @@ from perfil.permissions import *
 from .serializers import *
 from .models import *
 
-
 class UserView(viewsets.ModelViewSet, NestedViewSetMixin):
     queryset = User.objects.all()
     serializer_class = UserSerializer
