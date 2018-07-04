@@ -27,8 +27,8 @@ urlpatterns = [
     path('', ApiRoot.as_view(), name='api-root'),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
-    path('api-obtain-token/', obtain_auth_token),
-    path('api-obtain-token2/', TokenAcess.as_view(), name='api-token'),
+    #path('api-obtain-token/', obtain_auth_token),
+    #path('api-obtain-token2/', TokenAcess.as_view(), name='api-token'),
     url(r'^api/token/$', TokenObtainPairView.as_view(), name='token_obtain_pair'), #Paths do JWT
     url(r'^api/token/refresh/$', TokenRefreshView.as_view(), name='token_refresh'), #Paths do JWT
 ]

@@ -77,7 +77,7 @@ class MusicView(viewsets.ModelViewSet, NestedViewSetMixin):
     #    except:
     #        return Comment.objects.all()
 
-class AreaView(viewsets.ModelViewSet, NestedViewSetMixin):
+class AreaView(viewsets.ModelViewSet, NestedViewSetMixin,):
     queryset = Area.objects.all()
     serializer_class = AreaSerializer
     name = 'area-list'
@@ -85,10 +85,10 @@ class AreaView(viewsets.ModelViewSet, NestedViewSetMixin):
     authentication_classes = (
         TokenAuthentication, 
         SessionAuthentication, 
-        BasicAuthentication
+        BasicAuthentication,
         )
 
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     #def get_queryset(self):
     #    try:
@@ -102,9 +102,9 @@ class ApiRoot(generics.GenericAPIView, NestedViewSetMixin):
     def get(self, request, *args, **kwargs):
         return Response({
             'users': reverse(UserView.name, request=request),
-            'characters': reverse(CharacterView, request=request),
-            'itens': reverse(ItemView, request=request),
-            'musics': reverse(MusicView, request=request),
+            'characters': reverse(CharacterView.name, request=request),
+            'itens': reverse(ItemView.name, request=request),
+            'musics': reverse(MusicView.name, request=request),
         })
 
 class TokenAcess(ObtainAuthToken):
