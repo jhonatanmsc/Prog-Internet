@@ -46,4 +46,3 @@ user_router.register(r'itens', ItemView, base_name='areas_itens')
 
 urlpatterns += router.urls
 urlpatterns += user_router.urls
-urlpatterns += posts_router.urls

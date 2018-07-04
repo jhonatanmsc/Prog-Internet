@@ -21,7 +21,7 @@ class UserView(viewsets.ModelViewSet, NestedViewSetMixin):
         BasicAuthentication
         )
 
-    permission_classes = (UserReadOnly, permissions.IsAuthenticated)
+    permission_classes = (UserReadOnly, permissions.IsAuthenticated,)
 
 
 class CharacterView(viewsets.ModelViewSet, NestedViewSetMixin):
@@ -35,7 +35,7 @@ class CharacterView(viewsets.ModelViewSet, NestedViewSetMixin):
         BasicAuthentication
         )
 
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
 class ItemView(viewsets.ModelViewSet, NestedViewSetMixin):
@@ -49,7 +49,7 @@ class ItemView(viewsets.ModelViewSet, NestedViewSetMixin):
         BasicAuthentication
         )
 
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     #def get_queryset(self):
     #    try:
@@ -69,7 +69,7 @@ class MusicView(viewsets.ModelViewSet, NestedViewSetMixin):
         BasicAuthentication
         )
 
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     #def get_queryset(self):
     #    try:

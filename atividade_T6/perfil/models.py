@@ -17,7 +17,7 @@ class User(AbstractUser):
 
 class Character(models.Model):
     name = models.CharField(max_length=100)
-    race = models.ForeignKey('Races', related_name='characters', on_delete=models.CASCADE)
+    race = models.ForeignKey('Race', related_name='races', on_delete=models.CASCADE)
     characterType = models.ForeignKey('CharacterType', related_name='characters', on_delete=models.CASCADE)
     native = models.ForeignKey('Area', related_name='habitants', on_delete=models.CASCADE)
     musicTheme = models.ForeignKey('Music', related_name='characters', on_delete=models.CASCADE)

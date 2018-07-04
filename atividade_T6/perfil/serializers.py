@@ -14,7 +14,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class CharacterSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = User
+        model = Character
         fields = ('url', 'name', 'raca', 'characterType', 'native', 'musicTheme')
 
 
@@ -29,10 +29,10 @@ class MusicSerializer(serializers.HyperlinkedModelSerializer):
     
     class Meta:
         model = Music
-        fields = ('name')
+        fields = ('name',)
 
 
 class AreaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Area
-        fields = ('name')
+        fields = ('name',)
