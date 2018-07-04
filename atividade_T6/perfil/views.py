@@ -46,7 +46,7 @@ class ItemView(viewsets.ModelViewSet, NestedViewSetMixin):
     authentication_classes = (
         TokenAuthentication, 
         SessionAuthentication, 
-        BasicAuthentication
+        BasicAuthentication,
         )
 
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
