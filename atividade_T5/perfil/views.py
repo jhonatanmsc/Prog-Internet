@@ -1,4 +1,5 @@
-from rest_framework.authentication import TokenAuthentication, SessionAuthentication, BasicAuthentication, BaseAuthentication
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication, BasicAuthentication, \
+    BaseAuthentication
 from rest_framework.authtoken.views import ObtainAuthToken, Token
 from rest_framework_extensions.mixins import NestedViewSetMixin
 from rest_framework import viewsets, generics, permissions
@@ -13,6 +14,7 @@ from .serializers import *
 from .models import *
 import json, os
 
+
 # Create your views here.
 
 
@@ -22,10 +24,10 @@ class UserRootView(viewsets.ModelViewSet, NestedViewSetMixin):
     http_method_names = ['get']
 
     authentication_classes = (
-        TokenAuthentication, 
-        SessionAuthentication, 
+        TokenAuthentication,
+        SessionAuthentication,
         BasicAuthentication
-        )
+    )
 
     name = 'user-root-list'
 
@@ -37,10 +39,10 @@ class UserView(viewsets.ModelViewSet, NestedViewSetMixin):
     http_method_names = ['get']
 
     authentication_classes = (
-        TokenAuthentication, 
-        SessionAuthentication, 
+        TokenAuthentication,
+        SessionAuthentication,
         BasicAuthentication
-        )
+    )
 
     permission_classes = (UserReadOnly, permissions.IsAuthenticated)
 
@@ -57,10 +59,10 @@ class PostView(viewsets.ModelViewSet, NestedViewSetMixin):
     name = 'post-list'
 
     authentication_classes = (
-        TokenAuthentication, 
-        SessionAuthentication, 
+        TokenAuthentication,
+        SessionAuthentication,
         BasicAuthentication
-        )
+    )
 
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerPostOrReadOnly)
 
@@ -80,10 +82,10 @@ class CommentView(viewsets.ModelViewSet, NestedViewSetMixin):
     name = 'comment-list'
 
     authentication_classes = (
-        TokenAuthentication, 
-        SessionAuthentication, 
+        TokenAuthentication,
+        SessionAuthentication,
         BasicAuthentication
-        )
+    )
 
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerCommentOrReadOnly)
 
@@ -101,19 +103,20 @@ class ApiRoot(generics.GenericAPIView, NestedViewSetMixin):
             'users': reverse(UserView.name, request=request),
             'posts': reverse(PostView.name, request=request),
             'comments': reverse(CommentView.name, request=request),
-            'reset-data': reverse('reset-data',request=request)
+            'reset-data': reverse('reset-data', request=request)
         })
+
 
 class TokenAcess(ObtainAuthToken):
     throttle_scope = 'api-token'
-    throttle_classes = (ScopedRateThrottle, )
+    throttle_classes = (ScopedRateThrottle,)
 
     def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data, context={'request':request})
+        serializer = self.serializer_class(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
-        
+
         return Response({
             'user_id': user.id,
             'user_name': user.username,
@@ -131,28 +134,27 @@ class TokenAuthentication(BaseAuthentication):
         except User.DoesNotExist:
             raise exceptions.AuthenticationFailed('No such user')
 
-        return (user, None)
+        return user, None
 
 
 @transaction.atomic
 def reset_data(request):
     try:
         # Clearing previous data:
-        Address.objects.all().delete() 
-        User.objects.all().delete() 
+        Address.objects.all().delete()
+        User.objects.all().delete()
 
         # Loading the file:
         file = open(os.path.join(settings.PROJECT_DIR, 'personal_database.json'))
         read_file = json.dumps(file.read())
         file.close()
-        file_content =  eval(json.loads(read_file))
+        file_content = eval(json.loads(read_file))
         print(len(file_content['users']))
         # Saving one by one:
         for user in file_content['users']:
             User.save_from_json(**user)
 
         for post in file_content['posts']:
-
             Post.save_from_json(**post)
 
         for comment in file_content['comments']:

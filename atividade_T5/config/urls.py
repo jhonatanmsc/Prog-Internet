@@ -25,8 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('reset-data', reset_data, name='reset-data'),
-    path('api-obtain-token/', obtain_auth_token),
-    path('api-obtain-token2/', TokenAcess.as_view(), name='api-token'),
+    path('api-obtain-token/', TokenAcess.as_view(), name='api-token'),
 ]
 
 router = routers.DefaultRouter()

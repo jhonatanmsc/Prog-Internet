@@ -3,10 +3,12 @@ from django.contrib.auth.models import (AbstractUser,
                                         UserManager)
 from django.conf import settings
 
+
 # Create your models here.
 class User(AbstractUser):
     name = models.CharField(max_length=100)
-    address = models.ForeignKey('Address', blank=True, null=True, related_name='profile_in_address',on_delete=models.CASCADE)
+    address = models.ForeignKey('Address', blank=True, null=True, related_name='profile_in_address',
+                                on_delete=models.CASCADE)
 
     def __str__(self):
         return self.username
@@ -14,6 +16,7 @@ class User(AbstractUser):
     @classmethod
     def save_from_json(cls, id, name, email, address, *args, **kwargs):
         return cls.objects.create(pk=id, username=name, email=email, address=Address.save_from_json(**address))
+
 
 class Address(models.Model):
     street = models.CharField(max_length=100)
@@ -28,12 +31,13 @@ class Address(models.Model):
     def save_from_json(cls, street, suite, city, zipcode, *args, **kwargs):
         return cls.objects.create(street=street, suite=suite, city=city, zipcode=zipcode)
 
+
 class Comment(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
     body = models.CharField(max_length=300)
     post = models.ForeignKey('Post', related_name='comments_in_post', verbose_name='Todos os comentários',
-                               on_delete=models.CASCADE)
+                             on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -43,10 +47,12 @@ class Comment(models.Model):
         posty = Post.objects.get(pk=postId)
         return cls.objects.create(pk=id, name=name, email=email, body=body, post=posty)
 
+
 class Post(models.Model):
     title = models.CharField(max_length=100)
     body = models.CharField(max_length=300)
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, related_name='user_posts',on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, related_name='user_posts',
+                              on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
